@@ -1,0 +1,32 @@
+---
+
+- name: onyx_config_main
+  hosts: ONYX 
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    path: "" 
+    type: "text"
+    del_all_first: "no"
+    transfer_protocol: scp
+  remote_user: admin
+
+  tasks:
+    
+    - name: delete all config in the first place
+      when: del_all_first == "yes"
+      onyx_config:
+         commands: "configuration switch-to initial no-reboot"    
+
+    - name: apply text configuration file 
+      when: type == "text"
+      onyx_config:
+          src:  "{{ path }}"
+
+    - name: apply binary configuration file
+      when: type == "bin"
+      onyx_config:
+          src:  "{{ path }}"

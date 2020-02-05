@@ -1,0 +1,12 @@
+
+[ONYX]
+l-csi-2700-12 ansible_host=10.7.158.118
+
+
+[ONYX:vars]
+ansible_network_os=onyx
+ansible_become=yes
+ansible_become_method=enable
+ansible_ssh_user=admin
+ansible_ssh_pass=admin
+
