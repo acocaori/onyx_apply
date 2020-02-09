@@ -1,0 +1,28 @@
+---
+
+- name: onyx_config_main
+  hosts: ONYX
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    path:
+    type:
+    del_all_first: "no"
+    transfer_protocol: scp
+    temp_time: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
+  remote_user: admin
+
+  tasks:
+
+
+    - name: copy binary configuration file
+      net_put:
+          dest: "/config/db/"
+          mode: binary
+          protocol: "{{ transfer_protocol }}"
+          src: "{{ path }}"
+      when: type == "bin"
+
