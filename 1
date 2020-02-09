@@ -1,35 +1,34 @@
 ---
 
 - name: onyx_config_main
-  hosts: ONYX
+  hosts: ONYX 
   gather_facts: no
   connection: network_cli
   become: yes
   become_method: enable
   vars:
     ansible_network_os: onyx
-    path: 
-    type:
+    path: "" 
+    type: "text"
     del_all_first: "no"
     transfer_protocol: scp
-    temp_time: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
   remote_user: admin
 
   tasks:
-
+    
     - name: delete all config in the first place
       when: del_all_first == "yes"
       onyx_config:
          lines:
-          - configuration new {{ temp_time }} factory keep-connect
-          - configuration switch-to {{ temp_time }} no-reboot
-          - reload force
+          - configuration new play_factory factory keep-connect
+          - configuration switch-to play_factory_1
+#      expect:
+#        command: configuration switch-to play_factory_1
+#        responses:
+#            'Type to confirm:': 'yes'
+    
 
-    - name: wait for connection after reboot 
-      reboot:
-         reboot_timeout: 180 
-
-    - name: apply text configuration file
+    - name: apply text configuration file 
       when: type == "text"
       onyx_config:
           src:  "{{ path }}"
