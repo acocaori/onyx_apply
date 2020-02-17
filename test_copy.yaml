@@ -18,11 +18,17 @@
   tasks:
 
 
-    - name: copy binary configuration file
-      net_put:
-          dest: "/config/db/"
-          mode: binary
-          protocol: "{{ transfer_protocol }}"
-          src: "{{ path }}"
-      when: type == "bin"
 
+    - name: "copy from server to device"
+      nxos_file_copy:
+        local_file: "{{ path }}"
+        remote_file: "test_file.bin"
+
+
+#    - name: copy binary configuration file
+#      net_put:
+#          dest: /config/db/
+#          mode: binary
+#          protocol: "{{ transfer_protocol }}"
+#          src: "{{ path }}"
+#      when: type == "bin"

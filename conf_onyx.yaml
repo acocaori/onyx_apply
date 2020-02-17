@@ -7,6 +7,9 @@
   become: yes
   become_method: enable
   vars:
+    local_ip: 
+    local_user: root
+    local_pass: 3tango
     ansible_network_os: onyx
     path: 
     type:
@@ -39,11 +42,17 @@
       onyx_config:
           src:  "{{ path }}"
 
+    - name: fetch and apply binary configuration file 
+      onyx_config:
+         lines:
+          - configuration fetch scp://{{ local_user }}:{{ local_pass }}@{{ local_ip }}/{{ path }}
 
-    - name: copy binary configuration file
-      net_put:
-          dest: "/config/db/"
-          mode: binary
-          protocol: "{{ transfer_protocol }}" 
-          src: "{{ path }}"
-      when: type == "bin"
+
+
+ #   - name: copy binary configuration file
+ #     net_put:
+ #         dest: "/config/db/"
+ #         mode: binary
+ #         protocol: "{{ transfer_protocol }}" 
+ #         src: "{{ path }}"
+ #     when: type == "bin"
