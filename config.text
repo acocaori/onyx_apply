@@ -1,0 +1,47 @@
+##
+## Running database "2020-02-25-11-47-37"
+## Generated at 2001/03/20 21:54:47 +0000
+## Hostname: l-csi-2010-tmp02
+## Product release: 3.8.2204
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## Interface Ethernet configuration
+##
+   interface ethernet 1/1 description TEST
+   
+##
+## LAG configuration
+##
+   port-channel load-balance ethernet source-destination-mac
+   
+##
+## Local user account configuration
+##
+   username admin password 7 $6$I2IbHLOu$TObrbywdip359zhMBOz/DB.rklwQYAU4lm37SZSQNp3d/E.wS3SmZ6iGoEPM6ziLiYYqmH0X1qZ4uLqDwC6Hd.
+   username monitor password 7 $6$M75RrWYW$iX2RPcBD3dMmnREYKPTya.7ONKhzS51gUIMdo3e7o7kxHP7cWv7z.vVPXcj4fwOekibsDEcYzc1DmfRpJy5290
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 9293489bfea79b938c887fb2f730fa27406e4b04
+# (public-cert config omitted since private-key config is hidden)
+

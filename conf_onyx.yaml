@@ -8,8 +8,8 @@
   become_method: enable
   vars:
     local_ip: 
-    local_user: root
-    local_pass: 3tango
+    local_user: "root"
+    local_pass: "3tango"
     ansible_network_os: onyx
     path: 
     type:
@@ -32,27 +32,28 @@
           - reload force
       ignore_errors: yes
    
-    - name: sleep for 180 seconds and continue with play
+    - name: wait for connection
       wait_for:
-        timeout: 180
-      delegate_to: localhost
+         host: "{{ inventory_hostname }}"
+         port: 22
+         delay: 160
+         timeout: 800
+      become: false
+      tags: wait_for_ssh
 
-    - name: apply text configuration file
+
+
+    - name: fetch text configuration file
       when: type == "text"
       onyx_config:
           src:  "{{ path }}"
 
     - name: fetch and apply binary configuration file 
+      when: type == "bin"
       onyx_config:
          lines:
-          - configuration fetch scp://{{ local_user }}:{{ local_pass }}@{{ local_ip }}/{{ path }}
+          - configuration delete {{ path | basename }}
+          - configuration fetch scp://{{local_user}}:{{local_pass}}@{{local_ip}}/{{ path }}
+          - configuration switch-to {{ path | basename }} no-reboot
+      ignore_errors: yes
 
-
-
- #   - name: copy binary configuration file
- #     net_put:
- #         dest: "/config/db/"
- #         mode: binary
- #         protocol: "{{ transfer_protocol }}" 
- #         src: "{{ path }}"
- #     when: type == "bin"

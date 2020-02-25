@@ -1,6 +1,6 @@
 
 [ONYX]
-l-csi-2700-12 ansible_host=10.7.158.118
+l-csi-2010-tmp02 ansible_host=10.7.156.217
 
 
 [ONYX:vars]
